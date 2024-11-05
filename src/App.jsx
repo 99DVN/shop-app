@@ -1,14 +1,13 @@
-import { useState } from 'react';
-import reactLogo from './assets/react.svg';
-import './App.css';
+import MainLayout from '@components/Layout/Layout';
+import Footer from '@components/Footer/Footer';
+import Button from './components/Button/Button';
+import Header from '@components/Header/Header';
 
 function App() {
-    const [count, setCount] = useState(0);
-
     return (
-        <div className='App'>
-            <h1>HelloWord</h1>
-        </div>
+        <>
+            <Header />
+        </>
     );
 }
 
