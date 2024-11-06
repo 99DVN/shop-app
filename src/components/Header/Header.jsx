@@ -1,5 +1,5 @@
 import BoxIcon from './BoxIcon/BoxIcon';
-import { dataBoxIcon, dataMenu } from './constans';
+import { dataBoxIcon, dataMenu } from './constants';
 import Menu from './Menu/Menu';
 import styles from './styles.module.scss';
 import Logo from '@icons/images/Logo-retina.png';
