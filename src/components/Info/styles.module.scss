@@ -10,7 +10,7 @@
 }
 
 .containerCard {
-    @include flex_box_custom(center, center, 18px);
+    @include flex_box_custom(center, center, 20px);
 
     width: 280px;
     height: 104px;

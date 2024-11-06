@@ -1,7 +1,8 @@
 import { dataInfo } from '@components/Info/constants';
 import InfoCard from '@components/Info/InfoCard/InfoCard';
-import MainLayout from '@components/Layout/Layout';
 import styles from './styles.module.scss';
+import MainLayout from '@components/Layout/Layout';
+
 const Info = () => {
     const { container } = styles;
     return (

@@ -1,6 +1,4 @@
 import styles from '../styles.module.scss';
-import TruckIcon from '@icons/svgs/truckIcon.svg';
-import BoxIcon from '@icons/svgs/boxIcon.svg';
 
 const InfoCard = ({ content, description, src }) => {
     const { containerCard, containerContent, title, des } = styles;
