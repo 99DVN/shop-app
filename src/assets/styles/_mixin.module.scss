@@ -9,9 +9,9 @@
     gap: $gap;
 }
 
-@mixin btn($w, $h, $color, $radius) {
+@mixin btn($w, $h, $radius, $color) {
     outline: none;
-    border: 1px solid #e1e1e1;
+    border: 1px solid $color;
     width: $w;
     height: $h;
     background-color: $color;

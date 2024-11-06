@@ -1,11 +1,18 @@
 @import '@styles/mixin.module.scss';
-.btn {
-    @include btn(30px, 30px, #fff, 0px);
-}
-.btn2 {
-    @include btn(44px, 44px, #fff, 50%);
-}
+@import '@styles/variable.module.scss';
 
-.btn3 {
-    @include btn(500px, 40px, #333333, 3px);
+.btn {
+    @include btn(176px, 42px, 3px, $primary_color);
+
+    color: $white_color;
+    font-size: 14px;
+    font-weight: 300;
+    cursor: pointer;
+
+    &:hover {
+        background-color: transparent;
+        color: $primary_color;
+        border: 1px sold $primary_color;
+        transition: background-color 300ms;
+    }
 }
