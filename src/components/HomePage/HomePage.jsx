@@ -15,6 +15,11 @@ const HomePage = () => {
                 <Info />
                 <AdvanceHeadling />
                 <HeadingListProduct />
+                <div
+                    style={{
+                        height: '200px'
+                    }}
+                ></div>
             </div>
         </>
     );
