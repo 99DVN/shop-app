@@ -2,7 +2,8 @@ import axiosClient from './axiosClient';
 
 const getProducrs = async () => {
     const res = await axiosClient.get('/product');
-    console.log('product', res);
+    return res.data;
+    console.log('res', res);
 };
 
 export { getProducrs };
