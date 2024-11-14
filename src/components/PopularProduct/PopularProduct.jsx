@@ -9,7 +9,7 @@ const PopularProduct = ({ data }) => {
             <div className={container}>
                 {data.map((item) => (
                     <ProductItem
-                        key={item.id}
+                        key={item._id}
                         src={item.images[0]}
                         prevSrc={item.images[1]}
                         name={item.name}
