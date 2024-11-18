@@ -7,6 +7,7 @@ import HeadingListProduct from '@components/HeadingListProduct/HeadingListProduc
 import { useEffect, useState } from 'react';
 import { getProducrs } from '@/apis/productService';
 import PopularProduct from '@components/PopularProduct/PopularProduct';
+import SaleHomePage from '@components/SaleHomePage/SaleHomePage';
 
 const HomePage = () => {
     const { container } = styles;
@@ -29,6 +30,7 @@ const HomePage = () => {
                 <PopularProduct
                     data={listProducts.slice(2, listProducts.length)}
                 />
+                <SaleHomePage />
                 <div
                     style={{
                         height: '200px'
