@@ -3,7 +3,6 @@ import styles from './styles.module.scss';
 
 const Footer = () => {
     const { container, boxNav } = styles;
-    console.log('dataMenu', dataMenu);
     return (
         <div className={container}>
             <div>
