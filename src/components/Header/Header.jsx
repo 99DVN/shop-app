@@ -7,8 +7,9 @@ import rotateIcon from '@icons/svgs/rotateicon.svg';
 import heartIcon from '@icons/svgs/hearticon.svg';
 import cartIcon from '@icons/svgs/carticon.svg';
 import useScrollHandling from '@/hooks/useScrollHandling';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
+import { SideBarContext } from '@/contexts/SideBarProvider';
 
 const Header = () => {
     const {
@@ -23,8 +24,7 @@ const Header = () => {
 
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
-
-    console.log('Scroll', scrollPosition);
+    const { isOpen, setIsOpen } = useContext(SideBarContext);
 
     useEffect(() => {
         // if (scrollPosition > 80) {
@@ -70,7 +70,11 @@ const Header = () => {
                     <div className={containerMenu}>
                         {dataMenu.slice(3, 6).map((item) => {
                             return (
-                                <Menu content={item.content} href={item.href} />
+                                <Menu
+                                    content={item.content}
+                                    href={item.href}
+                                    setIsOpen={setIsOpen}
+                                />
                             );
                         })}
                     </div>
