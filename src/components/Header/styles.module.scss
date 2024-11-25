@@ -32,8 +32,17 @@
     height: 83px;
 }
 
-.containerBoxIcon {
+.containerBoxIconL {
     @include flex_box_custom(center, center, 10px);
+    &:hover {
+        cursor: pointer;
+    }
+}
+.containerBoxIconR {
+    @include flex_box_custom(center, center, 20px);
+    &:hover {
+        cursor: pointer;
+    }
 }
 
 .containerBox {

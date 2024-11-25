@@ -7,8 +7,8 @@ import SideBar from '@components/SideBar/SideBar';
 function App() {
     return (
         <SideBarProvider>
-            <SideBar />
             <BrowserRouter>
+                <SideBar />
                 <Suspense fallback={<div>...Loading</div>}>
                     <Routes>
                         {routers.map((item, index) => {
