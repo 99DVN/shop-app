@@ -33,13 +33,6 @@ const Header = () => {
     };
 
     useEffect(() => {
-        // if (scrollPosition > 80) {
-        //     setFixedPosition(true);
-        // } else {
-        //     setFixedPosition(false);
-        // }
-
-        // setFixedPosition(scrollPosition > 80 ? true : fasle);
         setFixedPosition(scrollPosition > 80);
     }, [scrollPosition]);
     return (

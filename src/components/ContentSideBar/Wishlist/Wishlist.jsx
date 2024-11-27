@@ -16,7 +16,7 @@ const Wishlist = () => {
                 <ItemProduct />
             </div>
             <div className={boxBtn}>
-                <Button content={'WIEW WISHTLIST'} />
+                <Button content={'VIEW WISHTLIST'} />
                 <Button content={'ADD ALL TO CART'} isPrimary={false} />
             </div>
         </div>
