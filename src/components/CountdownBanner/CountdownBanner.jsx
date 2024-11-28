@@ -10,7 +10,7 @@ const CountdownBanner = () => {
             <div className={containerTimer}>
                 <CountdownTimer targetDate={targetDate} />
             </div>
-            <h1 className={title}>The classics make a comeback</h1>
+            <h1 className={title}>The Classics Make A Comeback</h1>
             <div className={boxBtn}>
                 <Button content={'Buy now'} />
             </div>
