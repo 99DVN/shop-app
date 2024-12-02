@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from '../styles.module.scss';
 import CountdownTimer from '@components/CountdownTimer.jsx/CountdownTimer';
 import Button from '@components/Button/Button';
