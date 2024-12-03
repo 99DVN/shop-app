@@ -42,7 +42,6 @@ export const OurShopProvider = ({ children }) => {
         };
         getProducrs(query)
             .then((res) => {
-                console.log(res);
                 setProducts(res.contents);
             })
             .catch((err) => {

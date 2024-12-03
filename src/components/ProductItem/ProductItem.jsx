@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import styles from './styles.module.scss';
 import rotateIcon from '@icons/svgs/rotateicon.svg';
 import heartIcon from '@icons/svgs/hearticon.svg';
@@ -15,7 +15,9 @@ const ProductItem = ({
     details,
     isHomepage = true
 }) => {
-    const { isShowGrid } = useContext(OurShopContext);
+    // const { isShowGrid } = useContext(OurShopContext);
+    const ourShopStore = useContext(OurShopContext);
+    const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
 
     const {
         boxImg,
@@ -33,6 +35,14 @@ const ProductItem = ({
         leftBtn,
         largImg
     } = styles;
+
+    useEffect(() => {
+        if (isHomepage) {
+            setIsShowGrid(true);
+        } else {
+            setIsShowGrid(ourShopStore?.isShowGrid);
+        }
+    }, [isHomepage, ourShopStore?.isShowGrid]);
 
     return (
         <div className={isShowGrid ? '' : containerItem}>
