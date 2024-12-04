@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState } from 'react';
 import { getProducrs } from '@/apis/productService';
+import { BsSortDown } from 'react-icons/bs';
 
 export const OurShopContext = createContext();
 
@@ -24,6 +25,34 @@ export const OurShopProvider = ({ children }) => {
     const [isShowGrid, setIsShowGrid] = useState(true);
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoadMore, setIsLoadMore] = useState(false);
+    const [page, setPage] = useState(1);
+    const [total, setTotal] = useState(0);
+
+    const handleLoadMore = () => {
+        const query = {
+            sortType: sortId,
+            page: page + 1,
+            limit: showId
+        };
+
+        setIsLoadMore(true);
+
+        getProducrs(query)
+            .then((res) => {
+                setProducts((prev) => {
+                    return [...prev, ...res.contents];
+                });
+                setPage(+res.page);
+                setTotal(res.total);
+                setIsLoading(false);
+                setIsLoadMore(false);
+            })
+            .catch((err) => {
+                console.log(err);
+                setIsLoadMore(false);
+            });
+    };
 
     const values = {
         sortOptions,
@@ -33,7 +62,10 @@ export const OurShopProvider = ({ children }) => {
         isShowGrid,
         setIsShowGrid,
         products,
-        isLoading
+        isLoading,
+        handleLoadMore,
+        total,
+        isLoadMore
     };
 
     useEffect(() => {
@@ -46,6 +78,7 @@ export const OurShopProvider = ({ children }) => {
         getProducrs(query)
             .then((res) => {
                 setProducts(res.contents);
+                setTotal(res.total);
                 setIsLoading(false);
             })
             .catch((err) => {
