@@ -18,6 +18,7 @@ const ProductItem = ({
     // const { isShowGrid } = useContext(OurShopContext);
     const ourShopStore = useContext(OurShopContext);
     const [isShowGrid, setIsShowGrid] = useState(ourShopStore?.isShowGrid);
+    const [sizeChoose, setSizeChoose] = useState('');
 
     const {
         boxImg,
@@ -33,8 +34,18 @@ const ProductItem = ({
         content,
         containerItem,
         leftBtn,
-        largImg
+        largImg,
+        isAcctiveSize,
+        btnClear
     } = styles;
+
+    const handleChooseSize = (size) => {
+        setSizeChoose(size);
+    };
+
+    const handleClearSize = () => {
+        setSizeChoose('');
+    };
 
     useEffect(() => {
         if (isHomepage) {
@@ -74,11 +85,24 @@ const ProductItem = ({
                     <div className={boxSize}>
                         {details.size.map((item, index) => {
                             return (
-                                <div key={index} className={size}>
+                                <div
+                                    key={index}
+                                    className={cls(size, {
+                                        [isAcctiveSize]:
+                                            sizeChoose === item.name
+                                    })}
+                                    onClick={() => handleChooseSize(item.name)}
+                                >
                                     {item.name}
                                 </div>
                             );
                         })}
+                    </div>
+                )}
+
+                {sizeChoose && (
+                    <div className={btnClear} onClick={() => handleClearSize()}>
+                        clear
                     </div>
                 )}
                 <div className={cls(title, { [textCenter]: !isHomepage })}>
