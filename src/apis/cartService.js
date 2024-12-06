@@ -8,4 +8,10 @@ const getCart = async (userId) => {
     return await axiosClient.get(`/cart/${userId}`);
 };
 
-export { addProductTocart, getCart };
+const deleteItem = async (body) => {
+    return await axiosClient.delete(`/cart/deleteItem`, {
+        data: body
+    });
+};
+
+export { addProductTocart, getCart, deleteItem };
