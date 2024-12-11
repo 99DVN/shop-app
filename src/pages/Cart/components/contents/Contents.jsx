@@ -1,7 +1,18 @@
-import React from 'react';
+import CartTalbe from '@/pages/Cart/components/contents/CartTalbe';
+import styles from '../../styles.module.scss';
+import CartSummary from '@/pages/Cart/components/contents/CartSummary';
 
 const Contents = () => {
-    return <div>Contents</div>;
+    const { containerContent } = styles;
+    return (
+        <div className={containerContent}>
+            <div>
+                <CartTalbe />
+            </div>
+
+            <CartSummary />
+        </div>
+    );
 };
 
 export default Contents;
