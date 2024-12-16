@@ -33,7 +33,10 @@ const Cart = () => {
         return acc + item.total;
     }, 0);
 
-    console.log(subTotal);
+    const handleNavigateToCart = () => {
+        navigate('/cart');
+        setIsOpen(false);
+    };
 
     return (
         <div
@@ -74,7 +77,10 @@ const Cart = () => {
                             <p>${subTotal}</p>
                         </div>
                         <div className={boxBtn}>
-                            <Button content={'VIEW CART'} />
+                            <Button
+                                content={'VIEW CART'}
+                                onClick={() => handleNavigateToCart()}
+                            />
                             <Button content={'CHECK OUT'} isPrimary={false} />
                         </div>
                     </div>

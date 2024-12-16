@@ -166,6 +166,7 @@
         padding: 25px;
         border: 2px solid #333;
         flex-grow: 1;
+        position: relative;
 
         .title {
             font-size: 14px;
@@ -239,6 +240,60 @@
         text-align: center;
         margin-top: 10px;
         font-weight: 400;
+    }
+
+    .boxFooter {
+        @include flex_box_custom(space-between, center, 0px);
+
+        margin-top: 15px;
+
+        .boxCoupon {
+            @include flex_box_custom(flex-start, center, 0px);
+
+            input {
+                border: 1px solid #e1e1e1;
+                padding: 10px 15px;
+                width: 300px;
+                outline: none;
+            }
+
+            button {
+                padding: 0px 10px;
+                height: 36px;
+                border-radius: 0px;
+                font-size: 12px;
+                width: 36px;
+            }
+        }
+
+        .boxBtnDelete {
+            button {
+                height: 36px;
+                font-size: 12px;
+                padding: 0px 30px;
+            }
+        }
+    }
+}
+
+.boxEmtyCart {
+    @include flex_box_custom(center, center, 20px);
+    flex-direction: column;
+
+    width: 100%;
+    font-size: 14px;
+    color: $thr_color;
+
+    .titleEmty {
+        font-size: 24px;
+        color: $primary_color;
+    }
+
+    .boxBtnEmty {
+        width: 163px;
+        height: 35;
+        padding: 0 20px;
+        font-size: 12px;
     }
 }
 

@@ -10,6 +10,7 @@ import useScrollHandling from '@/hooks/useScrollHandling';
 import { useContext, useEffect, useState } from 'react';
 import classNames from 'classnames';
 import { SideBarContext } from '@/contexts/SideBarProvider';
+import { useNavigate } from 'react-router-dom';
 
 const Header = () => {
     const {
@@ -28,10 +29,15 @@ const Header = () => {
     const { scrollPosition } = useScrollHandling();
     const [fixedPosition, setFixedPosition] = useState(false);
     const { setIsOpen, setType, listProductCart } = useContext(SideBarContext);
+    const navigate = useNavigate();
 
     const handleOpenSideBar = (type) => {
         setIsOpen(true);
         setType(type);
+    };
+
+    const handleNavigateToHomePage = () => {
+        navigate('/');
     };
 
     useEffect(() => {
@@ -64,7 +70,12 @@ const Header = () => {
                     <img
                         src={Logo}
                         alt='Logo'
-                        style={{ width: '153px', height: '53px' }}
+                        style={{
+                            width: '153px',
+                            height: '53px',
+                            cursor: 'pointer'
+                        }}
+                        onClick={handleNavigateToHomePage}
                     />
                 </div>
                 <div className={containerBox}>

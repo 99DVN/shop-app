@@ -1,58 +1,34 @@
 import SelectBox from '@/pages/OurShop/components/SelectBox';
 import styles from '../../styles.module.scss';
+import Loading from '@/pages/Cart/components/Loading';
 
-const CartTalbe = ({ listProductCart, getData, getDataDelete }) => {
+const CartTalbe = ({ listProductCart, getData, isLoading, getDataDelete }) => {
     const { cartTable } = styles;
 
     const showOptions = [
         { label: '1', value: '1' },
         { label: '2', value: '2' },
         { label: '3', value: '3' },
-        { label: '4', value: '5' },
+        { label: '4', value: '4' },
         { label: '5', value: '5' },
         { label: '6', value: '6' },
         { label: '7', value: '7' }
     ];
 
-    const cartItems = [
-        {
-            id: 1,
-            name: '10K Yellow Gold',
-            price: 99.99,
-            sku: '12345',
-            quantity: 1,
-            size: 'L',
-            img: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min-285x340.jpg'
-        },
-        {
-            id: 2,
-            name: 'Amet faucibus nunc',
-            price: 1888.99,
-            sku: '87654',
-            quantity: 1,
-            size: 'L',
-            img: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min-285x340.jpg'
-        },
-        {
-            id: 3,
-            name: 'Erat mattis gravida',
-            price: 200.0,
-            sku: '2345',
-            quantity: 1,
-            size: 'L',
-            img: 'https://xstore.8theme.com/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-1.1-min-285x340.jpg'
-        }
-    ];
-    const handleDelete = (id) => {
-        console.log('Delete item with id: ', id);
-    };
-
     const handleQuantityChange = (id, newQuantity) => {
         console.log('Update item:', id, 'to quantity: ', newQuantity);
     };
 
-    const getValueSelect = (value, type) => {
-        console.log(value, type);
+    const getValueSelect = (userId, productId, quantity, size) => {
+        const data = {
+            userId,
+            productId,
+            quantity,
+            size,
+            isMultiple: true
+        };
+
+        getData(data);
     };
 
     return (
@@ -69,10 +45,10 @@ const CartTalbe = ({ listProductCart, getData, getDataDelete }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {cartItems.map((item) => (
+                    {listProductCart.map((item) => (
                         <tr key={item.id}>
                             <td>
-                                <img src={item.img} alt={item.name} />
+                                <img src={item.images[0]} alt={item.name} />
                                 <div>
                                     <p>{item.name}</p>
                                     <p>Size: {item.size}</p>
@@ -80,7 +56,12 @@ const CartTalbe = ({ listProductCart, getData, getDataDelete }) => {
                             </td>
                             <td>
                                 <div
-                                    onClick={() => handleDelete()}
+                                    onClick={() =>
+                                        getDataDelete({
+                                            userId: item.userId,
+                                            productId: item.productId
+                                        })
+                                    }
                                     style={{
                                         cursor: 'pointer'
                                     }}
@@ -93,8 +74,16 @@ const CartTalbe = ({ listProductCart, getData, getDataDelete }) => {
                             <td>
                                 <SelectBox
                                     options={showOptions}
-                                    getValue={getValueSelect}
+                                    getValue={(e) =>
+                                        getValueSelect(
+                                            item.userId,
+                                            item.productId,
+                                            e,
+                                            item.size
+                                        )
+                                    }
                                     type='show'
+                                    defaultValue={item.quantity}
                                 />
                             </td>
                             <td>${(item.price * item.quantity).toFixed(2)}</td>
@@ -102,6 +91,8 @@ const CartTalbe = ({ listProductCart, getData, getDataDelete }) => {
                     ))}
                 </tbody>
             </table>
+
+            {isLoading && <Loading />}
         </div>
     );
 };
