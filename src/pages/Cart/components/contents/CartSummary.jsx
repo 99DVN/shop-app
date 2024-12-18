@@ -45,11 +45,11 @@ const CartSummary = () => {
 
                 <div className={cls(boxTotal, subTotal)}>
                     <div>Subtotal</div>
-                    <div className={price}>${toTal}</div>
+                    <div className={price}>${toTal.toFixed(2)}</div>
                 </div>
                 <div className={cls(boxTotal, totals)}>
                     <div>TOTAL</div>
-                    <div className={price}>${toTal}</div>
+                    <div className={price}>${toTal.toFixed(2)}</div>
                 </div>
 
                 <Button content={'PROCEED TO CHECKOUT'} />
