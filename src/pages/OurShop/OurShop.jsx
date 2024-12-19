@@ -9,11 +9,22 @@ import Filter from '@/pages/OurShop/components/Filter';
 import ListProducts from '@/pages/OurShop/components/ListProducts';
 
 const OurShop = () => {
-    const { container, functionBox, specialText, btnBack } = styles;
+    const {
+        container,
+        functionBox,
+        specialText,
+        btnBack,
+        boxHomeShop,
+        textHome
+    } = styles;
     const navigate = useNavigate();
 
-    const handkeBackPreviousPage = () => {
+    const handleBackPreviousPage = () => {
         navigate(-1);
+    };
+
+    const handleToHomePage = () => {
+        navigate('/');
     };
 
     return (
@@ -22,12 +33,18 @@ const OurShop = () => {
             <MainLayout>
                 <div className={container}>
                     <div className={functionBox}>
-                        <div>
-                            Home &gt; <span className={specialText}>Shop</span>
+                        <div className={boxHomeShop}>
+                            <div
+                                className={textHome}
+                                onClick={handleToHomePage}
+                            >
+                                Home
+                            </div>{' '}
+                            &gt; <span className={specialText}>Shop</span>
                         </div>
                         <div
                             className={btnBack}
-                            onClick={() => handkeBackPreviousPage()}
+                            onClick={() => handleBackPreviousPage()}
                         >
                             {' '}
                             &lt; Return to previous page
