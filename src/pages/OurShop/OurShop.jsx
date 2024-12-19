@@ -23,7 +23,7 @@ const OurShop = () => {
         navigate(-1);
     };
 
-    const handleToHomePage = () => {
+    const handleClickToHomePage = () => {
         navigate('/');
     };
 
@@ -36,7 +36,7 @@ const OurShop = () => {
                         <div className={boxHomeShop}>
                             <div
                                 className={textHome}
-                                onClick={handleToHomePage}
+                                onClick={handleClickToHomePage}
                             >
                                 Home
                             </div>{' '}
