@@ -34,7 +34,7 @@ const OurShop = () => {
                 <div className={container}>
                     <div className={functionBox}>
                         <div className={boxHomeShop}>
-                            <div
+                        <div
                                 className={textHome}
                                 onClick={handleClickToHomePage}
                             >

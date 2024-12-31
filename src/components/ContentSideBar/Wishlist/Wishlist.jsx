@@ -11,7 +11,7 @@ const Wishlist = () => {
             <div>
                 <HeaderSideBar
                     icon={<BsHeart style={{ fontSize: '30px' }} />}
-                    title='WISHTIST'
+                    title='WISHLIST'
                 />
                 <ItemProduct />
             </div>
