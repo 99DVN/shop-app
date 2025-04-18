@@ -4,7 +4,7 @@ import cls from 'classnames';
 import { RiArrowDownWideLine } from 'react-icons/ri';
 import { TfiLayoutLineSolid } from 'react-icons/tfi';
 
-const Accordion = () => {
+const Accordion = ({ titleMenu, contentJsx, onClick, isSelected }) => {
     const {
         container,
         title,
@@ -14,34 +14,32 @@ const Accordion = () => {
         borderBottom
     } = styles;
 
-    const [isSeleted, setIsSeleted] = useState(false);
-
     const handleToggle = () => {
-        setIsSeleted(!isSeleted);
+        onClick();
     };
 
     return (
         <div className={container}>
             <div
                 className={cls(title, {
-                    [activeTitle]: isSeleted
+                    [activeTitle]: isSelected
                 })}
                 onClick={handleToggle}
             >
-                {isSeleted ? (
+                {isSelected ? (
                     <TfiLayoutLineSolid style={{ fontSize: '20px' }} />
                 ) : (
                     <RiArrowDownWideLine style={{ fontSize: '20px' }} />
                 )}{' '}
-                ADDITIONAL INFORMATION
+                {titleMenu}
             </div>
 
             <div
                 className={cls(contentMenu, borderBottom, {
-                    [isVisibility]: isSeleted
+                    [isVisibility]: isSelected
                 })}
             >
-                <div>Size ---------- L, M, S</div>
+                <div>{contentJsx}</div>
             </div>
         </div>
     );

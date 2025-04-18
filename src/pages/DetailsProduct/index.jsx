@@ -6,6 +6,9 @@ import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import PaymentMethods from '@components/PaymentMethods/PaymentMethods';
 import Accordion from '@components/Accordion/Accordion';
+import { useState } from 'react';
+import InfomationProduct from '@/pages/DetailsProduct/components/Infomation';
+import ReviewProduct from '@/pages/DetailsProduct/components/Review';
 
 function DetailProduct() {
     const {
@@ -26,6 +29,26 @@ function DetailProduct() {
         addFunc,
         info
     } = styles;
+
+    const [menuSelected, setMenuSelected] = useState(1);
+
+    const dataAccordion = [
+        {
+            id: 1,
+            titleMenu: 'ADITIONAL INFORMATIOON',
+            content: <InfomationProduct />
+        },
+        {
+            id: 2,
+            titleMenu: 'REVIEW (0)',
+            content: <ReviewProduct />
+        }
+    ];
+
+    const handleMenuSelected = (id) => {
+        setMenuSelected(id);
+    };
+
     return (
         <div>
             <Header />
@@ -124,8 +147,15 @@ function DetailProduct() {
                                     Category: <span>Men</span>
                                 </div>
                             </div>
-
-                            <Accordion />
+                            {dataAccordion.map((item, index) => (
+                                <Accordion
+                                    titleMenu={item.titleMenu}
+                                    contentJsx={item.content}
+                                    key={index}
+                                    onClick={() => handleMenuSelected(item.id)}
+                                    isSelected={menuSelected === item.id}
+                                />
+                            ))}
                         </div>
                     </div>
                 </MainLayout>

@@ -154,3 +154,114 @@
         }
     }
 }
+
+.containerInfo {
+    font-weight: 300;
+    div:last-child {
+        border-bottom: unset;
+    }
+
+    .itemInfo {
+        @include flex_box_custom(flex-start, center, 0px);
+        border-bottom: 1px solid #e1e1e1;
+        padding: 15px;
+
+        div {
+            width: 50%;
+        }
+
+        .title {
+            color: $seconddary_color;
+        }
+
+        .content {
+            color: $thr_color;
+        }
+    }
+}
+
+.containerReview {
+    .reviews {
+        border-bottom: 1px solid #e1e1e1;
+        padding: 15px;
+    }
+
+    .noreview {
+        font-size: 14px;
+        color: $thr_color;
+    }
+
+    .replyForm {
+        padding-top: 30px;
+
+        .commentReplyTitle {
+            font-size: 14px;
+            margin-bottom: 14px;
+            padding-top: 14px;
+            border-bottom: 1px solid #e1e1e1;
+            color: $thr_color;
+        }
+
+        .commentNote {
+            font-size: 14px;
+            color: $thr_color;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+
+            .commentFormCookiesConsent {
+                display: flex;
+                align-items: flex-start;
+                gap: 5px;
+
+                input {
+                    margin-top: 3px;
+                }
+
+                span {
+                    color: $thr_color;
+                }
+            }
+
+            .btnSubmit {
+                width: 100%;
+                max-width: 110px;
+            }
+        }
+    }
+}
+
+.formItem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    .boxItemStar {
+        display: flex;
+        gap: 25px;
+    }
+
+    label {
+        color: $thr_color;
+
+        span {
+            color: #c62828;
+            padding-left: 10px;
+        }
+    }
+
+    input,
+    textarea {
+        border: 1px solid #e1e1e1;
+        padding: 8px 15px;
+        outline: none;
+
+        &:focus {
+            border: 1px solid $seconddary_color;
+        }
+    }
+}
