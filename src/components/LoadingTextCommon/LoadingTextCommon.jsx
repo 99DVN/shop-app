@@ -1,9 +1,9 @@
 import styles from './styles.module.scss';
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { FiLoader } from 'react-icons/fi';
 
 const LoadingTextCommon = () => {
     const { rotate } = styles;
-    return <AiOutlineLoading3Quarters className={rotate} />;
+    return <FiLoader style={{ color: 'green' }} className={rotate} />;
 };
 
 export default LoadingTextCommon;
