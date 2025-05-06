@@ -13,22 +13,10 @@ import Footer from '@components/Footer/Footer';
 import SliderCommon from '@components/SliderCommon/SliderCommon';
 import ReactImageMagnifier from 'simple-image-magnifier/react';
 import cls from 'classnames';
-import { getDetailProduct } from '@/apis/productService';
-
-const temDataSize = [
-    {
-        name: 'S',
-        amount: '1000'
-    },
-    {
-        name: 'M',
-        amount: '1000'
-    },
-    {
-        name: 'L',
-        amount: '1000'
-    }
-];
+import { getDetailProduct, getRelatedProduct } from '@/apis/productService';
+import { useNavigate, useParams } from 'react-router-dom';
+import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
+import { toast } from 'react-toastify';
 
 const INCREMENT = 'increment';
 const DECREMENT = 'decrement';
@@ -53,13 +41,19 @@ function DetailProduct() {
         info,
         active,
         clear,
-        activeDisableBtn
+        activeDisableBtn,
+        loading,
+        emtyData
     } = styles;
 
     const [menuSelected, setMenuSelected] = useState(1);
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [data, setData] = useState();
+    const [dataRelated, setDataRelated] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
+    const param = useParams();
+    const navigate = useNavigate();
 
     const dataAccordion = [
         {
@@ -77,34 +71,6 @@ function DetailProduct() {
     const handleMenuSelected = (id) => {
         setMenuSelected(id);
     };
-
-    const temDataSlider = [
-        {
-            image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-            name: 'Test Product 1',
-            price: '1000',
-            size: [{ name: 'L' }, { name: 'S' }]
-        },
-        {
-            image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-            name: 'Test Product 1',
-            price: '1000',
-            size: [{ name: 'L' }, { name: 'S' }]
-        },
-        {
-            image: 'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-            name: 'Test Product 1',
-            price: '1000',
-            size: [{ name: 'L' }, { name: 'S' }]
-        }
-    ];
-
-    const dataImageDetails = [
-        'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-        'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-        'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg',
-        'https://xstore.b-cdn.net/elementor2/marseille04/wp-content/uploads/sites/2/2022/12/Image-7.3-min.jpg'
-    ];
 
     const handelRenderZoomImage = (src) => {
         return (
@@ -133,22 +99,43 @@ function DetailProduct() {
         );
     };
 
-    const fetchDataDetail = async () => {
+    const handleNavigateToShop = () => {
+        navigate('/shop');
+    };
+
+    const fetchDataDetail = async (id) => {
+        setIsLoading(true);
         try {
-            const data = await getDetailProduct(
-                '7fe1061c-4078-4630-a4e3-b5e3ed04fc46'
-            );
+            const data = await getDetailProduct(id);
             setData(data);
+            setIsLoading(false);
         } catch (err) {
             console.log(err);
+            toast.error('Có Lỗi Khi Tải Dữ Liệu!!');
+            setIsLoading(false);
+        }
+    };
+
+    const fetchDataRelatedProduct = async (id) => {
+        setIsLoading(true);
+        try {
+            const data = await getRelatedProduct(id);
+            setDataRelated(data);
+            setIsLoading(false);
+        } catch (err) {
+            console.log(err);
+            toast.error('Có Lỗi Khi Tải Dữ Liệu!!');
+            setDataRelated([]);
+            setIsLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchDataDetail();
-    }, []);
-
-    console.log('data:', data);
+        if (param.id) {
+            fetchDataDetail(param.id);
+            fetchDataRelatedProduct(param.id);
+        }
+    }, [param]);
 
     return (
         <div>
@@ -162,137 +149,175 @@ function DetailProduct() {
                         </div>
                     </div>
 
-                    <div className={contentSection}>
-                        <div className={imageBox}>
-                            {dataImageDetails.map((src) =>
-                                handelRenderZoomImage(src)
-                            )}
+                    {isLoading ? (
+                        <div className={loading}>
+                            <LoadingTextCommon />
                         </div>
-                        <div className={infoBox}>
-                            <h1>Title Product</h1>
-                            <p className={price}>$1,879.99</p>
-                            <p className={description}>
-                                Amet, elit tellus, nisi odio velit ut. Euismod
-                                sit arcu, quisque arcu purus orci leo.
-                            </p>
+                    ) : (
+                        <>
+                            {!data ? (
+                                <div className={emtyData}>
+                                    <p>No Results</p>
+                                    <div onClick={() => handleNavigateToShop()}>
+                                        <Button content='Back To Our Shop' />
+                                    </div>
+                                </div>
+                            ) : (
+                                <div className={contentSection}>
+                                    <div className={imageBox}>
+                                        {data?.images.map((src) =>
+                                            handelRenderZoomImage(src)
+                                        )}
+                                    </div>
+                                    <div className={infoBox}>
+                                        <h1>{data?.name}</h1>
+                                        <p className={price}>${data?.price}</p>
+                                        <p className={description}>
+                                            {data?.description}
+                                        </p>
 
-                            <p className={titleSize}>Size {selectedSize}</p>
-                            <div className={boxSize}>
-                                {temDataSize.map((item, index) => {
-                                    return (
-                                        <div
-                                            key={index}
-                                            className={cls(size, {
-                                                [active]:
-                                                    selectedSize === item.name
+                                        <p className={titleSize}>
+                                            Size {selectedSize}
+                                        </p>
+                                        <div className={boxSize}>
+                                            {data?.size.map((item, index) => {
+                                                return (
+                                                    <div
+                                                        key={index}
+                                                        className={cls(size, {
+                                                            [active]:
+                                                                selectedSize ===
+                                                                item.name
+                                                        })}
+                                                        onClick={() =>
+                                                            handleSelectSize(
+                                                                item.name
+                                                            )
+                                                        }
+                                                    >
+                                                        {item.name}
+                                                    </div>
+                                                );
                                             })}
-                                            onClick={() =>
-                                                handleSelectSize(item.name)
-                                            }
-                                        >
-                                            {item.name}
                                         </div>
-                                    );
-                                })}
-                            </div>
 
-                            {selectedSize && (
-                                <p className={clear} onClick={handleClearSize}>
-                                    clear
-                                </p>
+                                        {selectedSize && (
+                                            <p
+                                                className={clear}
+                                                onClick={handleClearSize}
+                                            >
+                                                clear
+                                            </p>
+                                        )}
+
+                                        <div className={functionInfo}>
+                                            <div className={incrementAmount}>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            DECREMENT
+                                                        )
+                                                    }
+                                                >
+                                                    -
+                                                </div>
+                                                <div>{quantity}</div>
+                                                <div
+                                                    onClick={() =>
+                                                        handleSetQuantity(
+                                                            INCREMENT
+                                                        )
+                                                    }
+                                                >
+                                                    +
+                                                </div>
+                                            </div>
+
+                                            <div className={boxBtn}>
+                                                <Button
+                                                    content={'Add to cart'}
+                                                    customClassname={
+                                                        !selectedSize &&
+                                                        activeDisableBtn
+                                                    }
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className={orSection}>
+                                            <div></div>
+                                            <span>OR</span>
+                                            <div></div>
+                                        </div>
+
+                                        <div>
+                                            <Button
+                                                content={'Buy Now'}
+                                                customClassname={
+                                                    !selectedSize &&
+                                                    activeDisableBtn
+                                                }
+                                            />
+                                        </div>
+
+                                        <div className={addFunc}>
+                                            <div>
+                                                <CiHeart />
+                                            </div>
+
+                                            <div>
+                                                <TfiReload />
+                                            </div>
+                                        </div>
+
+                                        <div>
+                                            <PaymentMethods />
+                                        </div>
+
+                                        <div className={info}>
+                                            <div>
+                                                Brand: <span>Brand 03</span>
+                                            </div>
+
+                                            <div>
+                                                SKU: <span>87654</span>
+                                            </div>
+
+                                            <div>
+                                                Category: <span>Men</span>
+                                            </div>
+                                        </div>
+                                        {dataAccordion.map((item, index) => (
+                                            <Accordion
+                                                titleMenu={item.titleMenu}
+                                                contentJsx={item.content}
+                                                key={index}
+                                                onClick={() =>
+                                                    handleMenuSelected(item.id)
+                                                }
+                                                isSelected={
+                                                    menuSelected === item.id
+                                                }
+                                            />
+                                        ))}
+                                    </div>
+                                </div>
                             )}
+                        </>
+                    )}
 
-                            <div className={functionInfo}>
-                                <div className={incrementAmount}>
-                                    <div
-                                        onClick={() =>
-                                            handleSetQuantity(DECREMENT)
-                                        }
-                                    >
-                                        -
-                                    </div>
-                                    <div>{quantity}</div>
-                                    <div
-                                        onClick={() =>
-                                            handleSetQuantity(INCREMENT)
-                                        }
-                                    >
-                                        +
-                                    </div>
-                                </div>
-
-                                <div className={boxBtn}>
-                                    <Button
-                                        content={'Add to cart'}
-                                        customClassname={
-                                            !selectedSize && activeDisableBtn
-                                        }
-                                    />
-                                </div>
-                            </div>
-
-                            <div className={orSection}>
-                                <div></div>
-                                <span>OR</span>
-                                <div></div>
-                            </div>
-
-                            <div>
-                                <Button
-                                    content={'Buy Now'}
-                                    customClassname={
-                                        !selectedSize && activeDisableBtn
-                                    }
-                                />
-                            </div>
-
-                            <div className={addFunc}>
-                                <div>
-                                    <CiHeart />
-                                </div>
-
-                                <div>
-                                    <TfiReload />
-                                </div>
-                            </div>
-
-                            <div>
-                                <PaymentMethods />
-                            </div>
-
-                            <div className={info}>
-                                <div>
-                                    Brand: <span>Brand 03</span>
-                                </div>
-
-                                <div>
-                                    SKU: <span>87654</span>
-                                </div>
-
-                                <div>
-                                    Category: <span>Men</span>
-                                </div>
-                            </div>
-                            {dataAccordion.map((item, index) => (
-                                <Accordion
-                                    titleMenu={item.titleMenu}
-                                    contentJsx={item.content}
-                                    key={index}
-                                    onClick={() => handleMenuSelected(item.id)}
-                                    isSelected={menuSelected === item.id}
-                                />
-                            ))}
+                    {dataRelated.length ? (
+                        <div>
+                            <h2 className=''>Related Products</h2>
+                            <SliderCommon
+                                data={dataRelated}
+                                isProductItem={true}
+                                showItem={4}
+                            />
                         </div>
-                    </div>
-
-                    <div>
-                        <h2 className=''>Related Products</h2>
-                        <SliderCommon
-                            data={temDataSlider}
-                            isProductItem={true}
-                            showItem={4}
-                        />
-                    </div>
+                    ) : (
+                        <></>
+                    )}
                 </MainLayout>
             </div>
             <Footer />

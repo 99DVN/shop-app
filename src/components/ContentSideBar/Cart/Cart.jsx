@@ -49,27 +49,29 @@ const Cart = () => {
                 title={'CART'}
             />
             {listProductCart.length ? (
-                <div className={containerListItem}>
-                    <div>
-                        {isLoading ? (
-                            <LoadingTextCommon />
-                        ) : (
-                            listProductCart.map((item, index) => {
-                                return (
-                                    <ItemProduct
-                                        key={index}
-                                        src={item.images[0]}
-                                        nameProduct={item.name}
-                                        sizeProduct={item.size}
-                                        quantity={item.quantity}
-                                        priceProduct={item.price}
-                                        skuProduct={item.sku}
-                                        productId={item.productId}
-                                        userId={item.userId}
-                                    />
-                                );
-                            })
-                        )}
+                <>
+                    <div className={containerListItem}>
+                        <div>
+                            {isLoading ? (
+                                <LoadingTextCommon />
+                            ) : (
+                                listProductCart.map((item, index) => {
+                                    return (
+                                        <ItemProduct
+                                            key={index}
+                                            src={item.images[0]}
+                                            nameProduct={item.name}
+                                            sizeProduct={item.size}
+                                            quantity={item.quantity}
+                                            priceProduct={item.price}
+                                            skuProduct={item.sku}
+                                            productId={item.productId}
+                                            userId={item.userId}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
                     </div>
                     <div>
                         <div className={total}>
@@ -84,7 +86,7 @@ const Cart = () => {
                             <Button content={'CHECK OUT'} isPrimary={false} />
                         </div>
                     </div>
-                </div>
+                </>
             ) : (
                 <div className={boxEmpty}>
                     <div>No products in the cart.</div>

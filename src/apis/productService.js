@@ -16,4 +16,9 @@ const getDetailProduct = async (id) => {
     return res.data;
 };
 
-export { getProducrs, getDetailProduct };
+const getRelatedProduct = async (id) => {
+    const res = await axiosClient.get(`/related-products/${id}`);
+    return res.data.relatedProducts;
+};
+
+export { getProducrs, getDetailProduct, getRelatedProduct };

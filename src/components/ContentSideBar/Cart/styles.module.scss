@@ -30,7 +30,7 @@
     .containerListItem {
         @include flex_box_custom(space-between, unset, 0px);
         flex-direction: column;
-
+        overflow: auto;
         flex-grow: 1;
     }
 }
