@@ -6,7 +6,7 @@ import { CiHeart } from 'react-icons/ci';
 import { TfiReload } from 'react-icons/tfi';
 import PaymentMethods from '@components/PaymentMethods/PaymentMethods';
 import Accordion from '@components/Accordion/Accordion';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import InfomationProduct from '@/pages/DetailsProduct/components/Infomation';
 import ReviewProduct from '@/pages/DetailsProduct/components/Review';
 import Footer from '@components/Footer/Footer';
@@ -16,7 +16,10 @@ import cls from 'classnames';
 import { getDetailProduct, getRelatedProduct } from '@/apis/productService';
 import { useNavigate, useParams } from 'react-router-dom';
 import LoadingTextCommon from '@components/LoadingTextCommon/LoadingTextCommon';
-import { toast } from 'react-toastify';
+import { handleAddProductTocartCommon } from '@/utils/helper';
+import { SideBarContext } from '@/contexts/SideBarProvider';
+import { ToastContext } from '@/contexts/ToastProvider';
+import Cookies from 'js-cookie';
 
 const INCREMENT = 'increment';
 const DECREMENT = 'decrement';
@@ -47,13 +50,18 @@ function DetailProduct() {
     } = styles;
 
     const [menuSelected, setMenuSelected] = useState(1);
-    const [selectedSize, setSelectedSize] = useState('');
+    const [sizeSelected, setSizeSelected] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [data, setData] = useState();
     const [dataRelated, setDataRelated] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const param = useParams();
     const navigate = useNavigate();
+    const { setIsOpen, setType, handleGetListProductsCart } =
+        useContext(SideBarContext);
+    const { toast } = useContext(ToastContext);
+    const userId = Cookies.get('userId');
+    const [isLoadingBtn, setIsLoadingBtn] = useState(false);
 
     const dataAccordion = [
         {
@@ -86,11 +94,11 @@ function DetailProduct() {
     };
 
     const handleSelectSize = (size) => {
-        setSelectedSize(size);
+        setSizeSelected(size);
     };
 
     const handleClearSize = () => {
-        setSelectedSize('');
+        setSizeSelected('');
     };
 
     const handleSetQuantity = (type) => {
@@ -128,6 +136,20 @@ function DetailProduct() {
             setDataRelated([]);
             setIsLoading(false);
         }
+    };
+
+    const handleAdd = () => {
+        handleAddProductTocartCommon(
+            userId,
+            setIsOpen,
+            setType,
+            toast,
+            sizeSelected,
+            param.id,
+            quantity,
+            setIsLoadingBtn,
+            handleGetListProductsCart
+        );
     };
 
     useEffect(() => {
@@ -177,7 +199,7 @@ function DetailProduct() {
                                         </p>
 
                                         <p className={titleSize}>
-                                            Size {selectedSize}
+                                            Size {sizeSelected}
                                         </p>
                                         <div className={boxSize}>
                                             {data?.size.map((item, index) => {
@@ -186,7 +208,7 @@ function DetailProduct() {
                                                         key={index}
                                                         className={cls(size, {
                                                             [active]:
-                                                                selectedSize ===
+                                                                sizeSelected ===
                                                                 item.name
                                                         })}
                                                         onClick={() =>
@@ -201,7 +223,7 @@ function DetailProduct() {
                                             })}
                                         </div>
 
-                                        {selectedSize && (
+                                        {sizeSelected && (
                                             <p
                                                 className={clear}
                                                 onClick={handleClearSize}
@@ -235,11 +257,18 @@ function DetailProduct() {
 
                                             <div className={boxBtn}>
                                                 <Button
-                                                    content={'Add to cart'}
+                                                    content={
+                                                        isLoadingBtn ? (
+                                                            <LoadingTextCommon />
+                                                        ) : (
+                                                            'ADD TO CART'
+                                                        )
+                                                    }
                                                     customClassname={
-                                                        !selectedSize &&
+                                                        !sizeSelected &&
                                                         activeDisableBtn
                                                     }
+                                                    onClick={handleAdd}
                                                 />
                                             </div>
                                         </div>
@@ -254,7 +283,7 @@ function DetailProduct() {
                                             <Button
                                                 content={'Buy Now'}
                                                 customClassname={
-                                                    !selectedSize &&
+                                                    !sizeSelected &&
                                                     activeDisableBtn
                                                 }
                                             />
